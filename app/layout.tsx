@@ -1,10 +1,10 @@
-import './globals.css';
-import type { ReactNode } from 'react';
+import './globals.css'
+import type { ReactNode } from 'react'
 
 export const metadata = {
   title: 'My PWA App',
-  description: 'Next.js 14 PWA starter'
-};
+  description: 'Next.js 14 PWA starter',
+}
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -18,5 +18,5 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body>{children}</body>
     </html>
-  );
+  )
 }

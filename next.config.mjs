@@ -1,8 +1,8 @@
-import withPWA from '@ducanh2912/next-pwa';
+import withPWA from '@ducanh2912/next-pwa'
 
 const nextConfig = {
   reactStrictMode: true,
-};
+}
 
 export default withPWA({
   ...nextConfig,
@@ -12,4 +12,4 @@ export default withPWA({
     skipWaiting: true,
     disable: process.env.NODE_ENV === 'development',
   },
-});
+})
