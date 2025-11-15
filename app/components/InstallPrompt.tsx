@@ -1,61 +1,63 @@
-'use client'
+"use client"
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react"
 
 export default function InstallPrompt() {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null)
-  const [showButton, setShowButton] = useState(false)
-  const [isAndroid, setIsAndroid] = useState(false)
+  const [showInstall, setShowInstall] = useState(false)
 
   useEffect(() => {
-    const ua = navigator.userAgent.toLowerCase()
-    if (ua.includes('android')) {
-      setIsAndroid(true)
-    }
+    if (typeof window === "undefined") return
 
-    const handler = (e: any) => {
+    const userAgent = navigator.userAgent.toLowerCase()
+    const isAndroid = userAgent.includes("android")
+
+    if (!isAndroid) return
+
+    const handleBeforeInstall = (e: any) => {
       e.preventDefault()
       setDeferredPrompt(e)
-      setShowButton(true)
+      setShowInstall(true)
     }
 
-    window.addEventListener('beforeinstallprompt', handler)
+    window.addEventListener("beforeinstallprompt", handleBeforeInstall)
 
     return () => {
-      window.removeEventListener('beforeinstallprompt', handler)
+      window.removeEventListener("beforeinstallprompt", handleBeforeInstall)
     }
   }, [])
 
-  if (!isAndroid || !showButton) return null
-
-  const installApp = async () => {
+  const handleInstall = async () => {
     if (!deferredPrompt) return
-
     deferredPrompt.prompt()
-    await deferredPrompt.userChoice
-
-    setDeferredPrompt(null)
-    setShowButton(false)
+    const result = await deferredPrompt.userChoice
+    setShowInstall(false)
   }
 
+  if (!showInstall) return null
+
   return (
-    <button
-      onClick={installApp}
-      style={{
-        position: 'fixed',
-        bottom: '20px',
-        right: '20px',
-        padding: '14px 22px',
-        background: '#0ea5a4',
-        color: '#fff',
-        borderRadius: '12px',
-        fontSize: '15px',
-        zIndex: 9999,
-        fontWeight: 600,
-        boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-      }}
-    >
-      Install App
-    </button>
+    <div style={{
+      position: "fixed",
+      bottom: 20,
+      left: "50%",
+      transform: "translateX(-50%)",
+      background: "white",
+      padding: "12px 18px",
+      borderRadius: 12,
+      boxShadow: "0 4px 15px rgba(0,0,0,0.2)"
+    }}>
+      <p style={{ marginBottom: 10 }}>Install aplikasi ini?</p>
+      <button
+        onClick={handleInstall}
+        style={{
+          background: "#0ea5a4",
+          color: "white",
+          padding: "8px 14px",
+          borderRadius: 8
+        }}>
+        Install
+      </button>
+    </div>
   )
 }
