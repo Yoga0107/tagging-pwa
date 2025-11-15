@@ -1,55 +1,61 @@
-"use client";
+'use client'
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 
 export default function InstallPrompt() {
-  const [deferredPrompt, setDeferredPrompt] = useState(null);
-  const [showButton, setShowButton] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null)
+  const [showButton, setShowButton] = useState(false)
+  const [isAndroid, setIsAndroid] = useState(false)
 
   useEffect(() => {
-    const handler = (e) => {
-      e.preventDefault();
-      setDeferredPrompt(e);
-      setShowButton(true);
-    };
-
-    window.addEventListener("beforeinstallprompt", handler);
-
-    return () => window.removeEventListener("beforeinstallprompt", handler);
-  }, []);
-
-  const installApp = async () => {
-    if (!deferredPrompt) return;
-
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-
-    if (outcome === "accepted") {
-      console.log("User accepted the install prompt");
+    const ua = navigator.userAgent.toLowerCase()
+    if (ua.includes('android')) {
+      setIsAndroid(true)
     }
 
-    setDeferredPrompt(null);
-    setShowButton(false);
-  };
+    const handler = (e: any) => {
+      e.preventDefault()
+      setDeferredPrompt(e)
+      setShowButton(true)
+    }
 
-  if (!showButton) return null;
+    window.addEventListener('beforeinstallprompt', handler)
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handler)
+    }
+  }, [])
+
+  if (!isAndroid || !showButton) return null
+
+  const installApp = async () => {
+    if (!deferredPrompt) return
+
+    deferredPrompt.prompt()
+    await deferredPrompt.userChoice
+
+    setDeferredPrompt(null)
+    setShowButton(false)
+  }
 
   return (
     <button
       onClick={installApp}
       style={{
-        position: "fixed",
-        bottom: 20,
-        right: 20,
-        padding: "12px 20px",
-        background: "#0ea5a4",
-        color: "#fff",
-        borderRadius: 8,
-        fontSize: 16,
+        position: 'fixed',
+        bottom: '20px',
+        right: '20px',
+        padding: '14px 22px',
+        background: '#0ea5a4',
+        color: '#fff',
+        borderRadius: '12px',
+        fontSize: '15px',
         zIndex: 9999,
+        fontWeight: 600,
+        boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
       }}
     >
       Install App
     </button>
-  );
+  )
 }
