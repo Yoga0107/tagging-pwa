@@ -1,16 +1,10 @@
 import withPWA from '@ducanh2912/next-pwa'
 
-const nextConfig = {
-  reactStrictMode: true,
-}
-
 export default withPWA({
-  ...nextConfig,
   pwa: {
     dest: 'public',
     register: true,
     skipWaiting: true,
-    disable: process.env.NODE_ENV === 'development',
-    buildExcludes: [/app-build-manifest\.json$/],
-  },
+    disable: false
+  }
 })
