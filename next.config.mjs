@@ -11,5 +11,6 @@ export default withPWA({
     register: true,
     skipWaiting: true,
     disable: process.env.NODE_ENV === 'development',
+    buildExcludes: [/app-build-manifest\.json$/],
   },
 })
