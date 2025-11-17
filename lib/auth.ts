@@ -1,70 +1,58 @@
+import type { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { db } from "@/db/drizzle";
-import { masterPic } from "@/db/schema";
-import { eq } from "drizzle-orm";
-import bcrypt from "bcryptjs";
-import type { NextAuthOptions } from "next-auth";
 
-export const authOptions: NextAuthOptions = {
+export const authOptions: AuthOptions = {
+  session: {
+    strategy: "jwt",
+  },
+
   providers: [
     CredentialsProvider({
-      name: "credentials",
+      name: "Credentials",
       credentials: {
-        email: {},
-        password: {},
+        email: { label: "Email", type: "text" },
+        password: { label: "Password", type: "password" },
       },
+
       async authorize(credentials) {
-        if (!credentials?.email || !credentials.password) {
-          return null;
-        }
+        if (!credentials) return null;
 
-        const rows = await db
-          .select()
-          .from(masterPic)
-          .where(eq(masterPic.email, credentials.email))
-          .limit(1);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API}/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(credentials),
+        });
 
-        if (rows.length === 0) return null;
+        if (!res.ok) return null;
 
-        const user = rows[0];
-
-        const match = await bcrypt.compare(credentials.password, user.password);
-        if (!match) return null;
+        const user = await res.json();
 
         return {
-          id: user.uid,
-          email: user.email!,
+          id: user.id,
+          email: user.email,
           departement: user.departement,
         };
       },
     }),
   ],
 
-  session: {
-    strategy: "jwt", // v4 valid
-  },
-
-  pages: {
-    signIn: "/login",
-  },
-
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+        token.email = user.email;
         token.departement = user.departement;
       }
       return token;
     },
 
     async session({ session, token }) {
-      if (session.user) {
-        session.user.id = token.id as string;
-        session.user.departement = token.departement as string;
-      }
+      session.user = {
+        id: token.id as string,
+        email: token.email as string,
+        departement: token.departement as string,
+      };
       return session;
     },
   },
-
-  secret: process.env.NEXTAUTH_SECRET,
 };
