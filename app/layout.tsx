@@ -1,11 +1,12 @@
-import './globals.css'
-import type { ReactNode } from 'react'
-import InstallPrompt from './components/InstallPrompt'
+import "./globals.css";
+import type { ReactNode } from "react";
+import InstallPrompt from "./components/InstallPrompt";
+import Providers from "./provider";
 
 export const metadata = {
-  title: 'My PWA App',
-  description: 'Next.js 14 PWA starter',
-}
+  title: "My PWA App",
+  description: "Next.js 14 PWA starter",
+};
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -17,10 +18,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <link rel="apple-touch-icon" href="/icons/icon-512.png" />
       </head>
+
       <body>
-        {children}
-        <InstallPrompt /> {/* <-- tambahkan di sini */}
+        <Providers>
+          {children}
+        </Providers>
+
+        {/* Install Prompt */}
+        <InstallPrompt />
       </body>
     </html>
-  )
+  );
 }
