@@ -1,8 +1,5 @@
 export { default } from "next-auth/middleware";
 
 export const config = {
-  matcher: [
-    "/dashboard/:path*",  
-    "/tagging-system/:path*",
-  ],
+  matcher: ["/dashboard/:path*"],
 };

@@ -1,10 +1,10 @@
 import "./globals.css";
 import type { ReactNode } from "react";
 import InstallPrompt from "./components/InstallPrompt";
-import Providers from "./provider";
+import { Providers } from "./provider";
 
 export const metadata = {
-  title: "My PWA App",
+  title: "Tagging PWA",
   description: "Next.js 14 PWA starter",
 };
 
@@ -19,12 +19,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="apple-touch-icon" href="/icons/icon-512.png" />
       </head>
 
-      <body>
+      <body className="bg-gray-50">
         <Providers>
-          {children}
+          <div className="min-h-screen">{children}</div>
         </Providers>
 
-        {/* Install Prompt */}
         <InstallPrompt />
       </body>
     </html>

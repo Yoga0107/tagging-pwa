@@ -1,24 +1,14 @@
-import Sidebar from "app/layout/Sidebar";
+import { authOptions } from "app/api/auth/route";
 import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 
 export default async function DashboardPage() {
-  const session = await getServerSession();
-
-  if (!session) {
-    redirect("/login");
-  }
+  const session = await getServerSession(authOptions);
 
   return (
-    <div className="flex">
-      <Sidebar />
-
-      <div className="flex-1 p-6">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
-        <p className="text-muted-foreground mt-2">
-          Selamat datang di dashboard.
-        </p>
-      </div>
+    <div className="min-h-screen p-6">
+      <h1 className="text-xl font-semibold">
+        Dashboard PIC — {session?.user?.email}
+      </h1>
     </div>
   );
 }
