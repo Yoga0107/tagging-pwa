@@ -1,46 +1,75 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useSetAtom } from "jotai";
+import { z } from "zod";
 import { useState } from "react";
-import { signIn } from "next-auth/react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
+import { authAtom } from "atoms/auth";
+
+const LoginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(4),
+});
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const router = useRouter();
+  const setAuth = useSetAtom(authAtom);
 
-  const handleLogin = async () => {
-    await signIn("credentials", {
-      redirect: true,
-      email,
-      password,
-      callbackUrl: "/dashboard", // halaman PIC
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
+
+  const handleLogin = () => {
+    const parse = LoginSchema.safeParse(form);
+    if (!parse.success) {
+      setError("Email atau password tidak valid");
+      return;
+    }
+
+  
+    setAuth({
+      isAuthenticated: true,
+      user: { email: form.email },
     });
+
+  
+    document.cookie = `auth-token=valid; path=/;`;
+    router.push("/dashboard");
+
+
+    router.push("/dashboard");
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6">
-      <div className="w-full max-w-sm space-y-4">
-        <h1 className="text-xl font-bold">Login PIC</h1>
+    <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
+      <Card className="w-full max-w-sm">
+        <CardHeader>
+          <CardTitle className="text-center">Login PIC</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <Input
+            placeholder="Email"
+            type="email"
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
+          />
 
-        <input
-          className="border p-2 w-full rounded"
-          placeholder="Email"
-          onChange={(e) => setEmail(e.target.value)}
-        />
+          <Input
+            placeholder="Password"
+            type="password"
+            value={form.password}
+            onChange={(e) => setForm({ ...form, password: e.target.value })}
+          />
 
-        <input
-          className="border p-2 w-full rounded"
-          placeholder="Password"
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
+          {error && <p className="text-red-500 text-sm">{error}</p>}
 
-        <button
-          onClick={handleLogin}
-          className="w-full bg-teal-500 text-white p-2 rounded"
-        >
-          Login
-        </button>
-      </div>
+          <Button className="w-full" onClick={handleLogin}>
+            Login
+          </Button>
+        </CardContent>
+      </Card>
     </div>
   );
 }
