@@ -1,14 +1,3 @@
-import { authOptions } from "@/lib/auth";
-import { getServerSession } from "next-auth";
-
-export default async function DashboardPage() {
-  const session = await getServerSession(authOptions);
-
-  return (
-    <div className="min-h-screen p-6">
-      <h1 className="text-xl font-semibold">
-        Dashboard PIC — {session?.user?.email}
-      </h1>
-    </div>
-  );
+export default function DashboardPage() {
+  return <h2 className="text-2xl font-semibold">Welcome to Dashboard</h2>;
 }
