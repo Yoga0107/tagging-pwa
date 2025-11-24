@@ -1,0 +1,222 @@
+[
+  {
+    "id": 1,
+    "system": "Boiler",
+    "sub_system": "Fuel",
+    "machine_unit": "Boiler Unit 1",
+    "machine_part": "Burner",
+    "spare_part": "Igniter",
+    "spare_part_specs": "12V ceramic",
+    "sku": "SP-BOI-001",
+    "business_unit": "Power"
+  },
+  {
+    "id": 2,
+    "system": "Boiler",
+    "sub_system": "Steam",
+    "machine_unit": "Boiler Unit 1",
+    "machine_part": "Safety Valve",
+    "spare_part": "Safety Spring",
+    "spare_part_specs": "SS304, 10mm",
+    "sku": "SP-BOI-002",
+    "business_unit": "Power"
+  },
+  {
+    "id": 3,
+    "system": "Conveyor",
+    "sub_system": "Drive",
+    "machine_unit": "Conveyor A1",
+    "machine_part": "Motor",
+    "spare_part": "Bearing",
+    "spare_part_specs": "6205-2RS",
+    "sku": "SP-CON-001",
+    "business_unit": "Packaging"
+  },
+  {
+    "id": 4,
+    "system": "Conveyor",
+    "sub_system": "Belt",
+    "machine_unit": "Conveyor A1",
+    "machine_part": "Belt",
+    "spare_part": "Belt 3mm",
+    "spare_part_specs": "PVC, 3mm x 1000mm",
+    "sku": "SP-CON-002",
+    "business_unit": "Packaging"
+  },
+  {
+    "id": 5,
+    "system": "Chiller",
+    "sub_system": "Compressor",
+    "machine_unit": "Chiller 02",
+    "machine_part": "Compressor Oil Pump",
+    "spare_part": "Seal Kit",
+    "spare_part_specs": "FK-45",
+    "sku": "SP-CHI-001",
+    "business_unit": "Utility"
+  },
+  {
+    "id": 6,
+    "system": "Chiller",
+    "sub_system": "Cooling",
+    "machine_unit": "Chiller 02",
+    "machine_part": "Fan",
+    "spare_part": "Fan Blade",
+    "spare_part_specs": "Dia 400mm",
+    "sku": "SP-CHI-002",
+    "business_unit": "Utility"
+  },
+  {
+    "id": 7,
+    "system": "Packaging",
+    "sub_system": "Filler",
+    "machine_unit": "Filler-1",
+    "machine_part": "Nozzle",
+    "spare_part": "Nozzle Tip",
+    "spare_part_specs": "SS316 1.2mm",
+    "sku": "SP-PKG-001",
+    "business_unit": "Packaging"
+  },
+  {
+    "id": 8,
+    "system": "Packaging",
+    "sub_system": "Capping",
+    "machine_unit": "Capping-1",
+    "machine_part": "Chuck",
+    "spare_part": "Chuck Spring",
+    "spare_part_specs": "Spring 12mm",
+    "sku": "SP-PKG-002",
+    "business_unit": "Packaging"
+  },
+  {
+    "id": 9,
+    "system": "Utilities",
+    "sub_system": "Compressed Air",
+    "machine_unit": "Air Plant 1",
+    "machine_part": "Dryer",
+    "spare_part": "Filter Cartridge",
+    "spare_part_specs": "10 micron",
+    "sku": "SP-UTL-001",
+    "business_unit": "Utility"
+  },
+  {
+    "id": 10,
+    "system": "Utilities",
+    "sub_system": "Water",
+    "machine_unit": "RO Plant",
+    "machine_part": "Pump",
+    "spare_part": "Mechanical Seal",
+    "spare_part_specs": "Type A",
+    "sku": "SP-UTL-002",
+    "business_unit": "Utility"
+  },
+  {
+    "id": 11,
+    "system": "Boiler",
+    "sub_system": "Feed",
+    "machine_unit": "Boiler Unit 2",
+    "machine_part": "Feed Pump",
+    "spare_part": "Shaft",
+    "spare_part_specs": "AISI 420",
+    "sku": "SP-BOI-003",
+    "business_unit": "Power"
+  },
+  {
+    "id": 12,
+    "system": "Cooling",
+    "sub_system": "Heat Exchanger",
+    "machine_unit": "HX-1",
+    "machine_part": "Tube Bundle",
+    "spare_part": "Tube",
+    "spare_part_specs": "Cu 12mm",
+    "sku": "SP-COO-001",
+    "business_unit": "Utility"
+  },
+  {
+    "id": 13,
+    "system": "Conveyor",
+    "sub_system": "Drive",
+    "machine_unit": "Conveyor B2",
+    "machine_part": "Gearbox",
+    "spare_part": "Oil Seal",
+    "spare_part_specs": "70x90",
+    "sku": "SP-CON-003",
+    "business_unit": "Logistics"
+  },
+  {
+    "id": 14,
+    "system": "Furnace",
+    "sub_system": "Burner",
+    "machine_unit": "Furnace-1",
+    "machine_part": "Thermocouple",
+    "spare_part": "Sensor Tip",
+    "spare_part_specs": "Type K",
+    "sku": "SP-FUR-001",
+    "business_unit": "Process"
+  },
+  {
+    "id": 15,
+    "system": "Furnace",
+    "sub_system": "Control",
+    "machine_unit": "Furnace-1",
+    "machine_part": "Controller",
+    "spare_part": "Control Board",
+    "spare_part_specs": "v2.1",
+    "sku": "SP-FUR-002",
+    "business_unit": "Process"
+  },
+  {
+    "id": 16,
+    "system": "Packaging",
+    "sub_system": "Sorting",
+    "machine_unit": "Sorter-3",
+    "machine_part": "Sensor Array",
+    "spare_part": "Photo Sensor",
+    "spare_part_specs": "Infrared",
+    "sku": "SP-PKG-003",
+    "business_unit": "Packaging"
+  },
+  {
+    "id": 17,
+    "system": "WMS",
+    "sub_system": "Racking",
+    "machine_unit": "Rack-01",
+    "machine_part": "Shelf",
+    "spare_part": "Shelf Panel",
+    "spare_part_specs": "Steel 2mm",
+    "sku": "SP-WMS-001",
+    "business_unit": "Warehouse"
+  },
+  {
+    "id": 18,
+    "system": "WMS",
+    "sub_system": "Conveyor",
+    "machine_unit": "WMS-Conv-1",
+    "machine_part": "Roller",
+    "spare_part": "Roller Bearing",
+    "spare_part_specs": "6204",
+    "sku": "SP-WMS-002",
+    "business_unit": "Warehouse"
+  },
+  {
+    "id": 19,
+    "system": "Process",
+    "sub_system": "Mixer",
+    "machine_unit": "Mixer-1",
+    "machine_part": "Impeller",
+    "spare_part": "Blade",
+    "spare_part_specs": "SS316",
+    "sku": "SP-PRO-001",
+    "business_unit": "Process"
+  },
+  {
+    "id": 20,
+    "system": "Process",
+    "sub_system": "Heater",
+    "machine_unit": "Heater-2",
+    "machine_part": "Element",
+    "spare_part": "Heating Coil",
+    "spare_part_specs": "NiCr 500W",
+    "sku": "SP-PRO-002",
+    "business_unit": "Process"
+  }
+]

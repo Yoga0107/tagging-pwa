@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "system": "Electrical",
+    "sub_system": "Motor Drive",
+    "problem_category": ["Overheat", "Unstable Voltage"]
+  },
+  {
+    "id": 2,
+    "system": "Mechanical",
+    "sub_system": "Gearbox",
+    "problem_category": ["Abnormal Noise", "Oil Leakage"]
+  },
+  {
+    "id": 3,
+    "system": "Utility",
+    "sub_system": "Compressor",
+    "problem_category": ["High Temperature", "Low Pressure"]
+  },
+  {
+    "id": 4,
+    "system": "Electrical",
+    "sub_system": "Control Panel",
+    "problem_category": ["Burnt Fuse", "Loose Wiring"]
+  },
+  {
+    "id": 5,
+    "system": "Mechanical",
+    "sub_system": "Conveyor",
+    "problem_category": ["Belt Slipping", "Roller Jam"]
+  },
+  {
+    "id": 6,
+    "system": "Pneumatic",
+    "sub_system": "Actuator",
+    "problem_category": ["Air Leak", "Slow Response"]
+  },
+  {
+    "id": 7,
+    "system": "Hydraulic",
+    "sub_system": "Pump Unit",
+    "problem_category": ["Pressure Drop", "Seal Failure"]
+  },
+  {
+    "id": 8,
+    "system": "QC System",
+    "sub_system": "Metal Detector",
+    "problem_category": ["False Alarm", "Sensitivity Error"]
+  },
+  {
+    "id": 9,
+    "system": "IT System",
+    "sub_system": "HMI/SCADA",
+    "problem_category": ["Screen Freeze", "Communication Lost"]
+  },
+  {
+    "id": 10,
+    "system": "Process",
+    "sub_system": "Drying",
+    "problem_category": ["High Moisture", "Uneven Drying"]
+  }
+]

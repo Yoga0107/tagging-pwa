@@ -1,0 +1,5 @@
+[
+  { "id": 1, "name": "Critical" },
+  { "id": 2, "name": "Major" },
+  { "id": 3, "name": "Minor" }
+]

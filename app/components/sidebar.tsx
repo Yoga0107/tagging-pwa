@@ -35,19 +35,16 @@ export default function Sidebar() {
     const [openWMS, setOpenWMS] = useState(true);
 
     const masterMenu = [
-        { href: "/master/dashboard", label: "Dashboard" },
-        { href: "/master/equipmenttree", label: "Equipment Tree" },
-        { href: "/master/pic", label: "Master PIC" },
-        { href: "/master/plant", label: "Plant Area" },
-        { href: "/master/bu", label: "Business Unit" },
+        { href: "/master-tagging/equipment-tree", label: "Equipment Tree" },
+        { href: "/master-tagging/problem-category", label: "Category Problem" },
+        { href: "/master-tagging/pic", label: "PIC" },
+        { href: "/master-tagging/classification", label: "ABC Classification" },
     ];
 
     const taggingMenu = [
         { href: "/tagging/dashboard", label: "Dashboard" },
         { href: "/tagging/table", label: "Open Tagging" },
-        { href: "/tagging/close", label: "Close Tagging" },
-        { href: "/tagging/report", label: "Report" },
-    ];
+        ];
 
     const wmsMenu = [
         { href: "/wms/dashboard", label: "Dashboard" },
@@ -60,7 +57,7 @@ export default function Sidebar() {
 
     const SidebarContent = () => (
         <div className="flex flex-col h-full w-64 border-r bg-white">
-            <div className="p-5 font-semibold text-lg">ERP System</div>
+            <div className="p-5 font-semibold text-lg">DP - PMS</div>
             <Separator />
 
             <ScrollArea className="flex-1 p-3">
@@ -187,6 +184,7 @@ export default function Sidebar() {
 
             <Separator />
             <div className="p-3 text-sm text-gray-500">v1.0.0</div>
+            <div className="p-3 text-sm text-gray-500">Digital Production - CPP</div>
         </div>
     );
 
