@@ -36,7 +36,7 @@ export default function Sidebar() {
 
     const masterMenu = [
         { href: "/master/dashboard", label: "Dashboard" },
-        { href: "/master/user", label: "Master User" },
+        { href: "/master/equipmenttree", label: "Equipment Tree" },
         { href: "/master/pic", label: "Master PIC" },
         { href: "/master/plant", label: "Plant Area" },
         { href: "/master/bu", label: "Business Unit" },
@@ -44,7 +44,7 @@ export default function Sidebar() {
 
     const taggingMenu = [
         { href: "/tagging/dashboard", label: "Dashboard" },
-        { href: "/tagging/open", label: "Open Tagging" },
+        { href: "/tagging/table", label: "Open Tagging" },
         { href: "/tagging/close", label: "Close Tagging" },
         { href: "/tagging/report", label: "Report" },
     ];
