@@ -1,5 +1,6 @@
 import './globals.css'
 import type { ReactNode } from 'react'
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata = {
   title: 'My PWA App',
@@ -17,6 +18,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="apple-touch-icon" href="/icons/icon-512.png" />
       </head>
       <body>{children}</body>
+      <Toaster />
     </html>
   )
 }

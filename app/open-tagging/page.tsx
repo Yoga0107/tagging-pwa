@@ -1,150 +1,332 @@
 "use client";
 
-import { useState } from "react";
-import { z } from "zod";
-import { plantAreas, businessUnits, tagCategories, tagCategorySystem, tagCategorySubsystem, tagPriorities } from "../../constants/openTagging";
+import  { useEffect, useState } from "react";
+import dataJson from "./open-tagging-data.json";
 
-import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+} from "@/components/ui/card";
+
 import { Input } from "@/components/ui/input";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Progress } from "@/components/ui/progress";
 
-const schema = z.object({
-  uid: z.string(),
-  plant_area: z.string(),
-  business_unit: z.string(),
-  tagger: z.string(),
-  nik_tagger: z.string(),
-  dept_tagger: z.string(),
-  tag_category: z.string(),
-  tag_category_system: z.string(),
-  tag_category_subsystem: z.string(),
-  tag_priority: z.string(),
-  tag_desc: z.string(),
-});
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+
 
 export default function OpenTaggingPage() {
+  // STEP
+  const [step, setStep] = useState(1);
+
+  // FORM DATA
   const [form, setForm] = useState({
-    uid: crypto.randomUUID(),
+    nik: "",
+    tagger_name: "",
+    email: "",
     plant_area: "",
     business_unit: "",
-    tagger: "",
-    nik_tagger: "",
-    dept_tagger: "",
-    tag_category: "",
-    tag_category_system: "",
-    tag_category_subsystem: "",
-    tag_priority: "",
-    tag_desc: "",
-    tagging_timestamp: new Date().toISOString(),
-    tag_pic: "unassigned",
-    tag_open_media: "",
+    category_system: "",
+    category_subsystem: "",
+    problem_category: "",
+    pic: "",
+    description: "",
   });
 
-  const [status, setStatus] = useState("");
+  // MEDIA
+  const [media, setMedia] = useState<File | null>(null);
 
-  const handleSubmit = async () => {
-    const parse = schema.safeParse(form);
-    if (!parse.success) {
-      setStatus("❌ Please fill in all required fields.");
-      return;
+  // Subsystem berdasarkan system
+  const [filteredSubsystem, setFilteredSubsystem] = useState<string[]>([]);
+
+  // Update input handler
+  const updateForm = (field: string, value: any) => {
+    setForm((prev) => ({ ...prev, [field]: value }));
+  };
+
+  // Auto-filter subsystem
+  useEffect(() => {
+    if (form.category_system) {
+      setFilteredSubsystem(dataJson.category_subsystem[form.category_system]);
     }
+  }, [form.category_system]);
 
-    const res = await fetch("/api/open-tagging", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify(form),
-});
-
-
-    if (res.ok) {
-      setStatus("✅ Tagging submitted successfully!");
-    } else {
-      setStatus("❌ Failed to submit data.");
+  // Validation per step
+  const validateStep = () => {
+    if (step === 1) {
+      return form.nik && form.tagger_name && form.email;
     }
+    if (step === 2) {
+      return (
+        form.plant_area &&
+        form.business_unit &&
+        form.category_system &&
+        form.category_subsystem &&
+        form.problem_category &&
+        form.pic &&
+        form.description
+      );
+    }
+    return true;
+  };
+
+  const nextStep = () => {
+    if (validateStep()) setStep(step + 1);
+  };
+
+  const prevStep = () => {
+    setStep(step - 1);
+  };
+
+  const submitForm = () => {
+    console.log("FINAL DATA:", form);
+    console.log("MEDIA FILE:", media);
+
+    alert("Open Tagging (Static) Berhasil Dibuat!");
   };
 
   return (
-    <div className="flex justify-center p-6">
-      <Card className="w-full max-w-2xl">
+    <div className="max-w-2xl mx-auto p-6">
+      <Card>
         <CardHeader>
-          <CardTitle>Open Tagging Form</CardTitle>
+          <CardTitle className="text-xl font-semibold">
+            Open Tagging — Step {step} dari 3
+          </CardTitle>
         </CardHeader>
 
-        <CardContent className="space-y-4">
+        <CardContent>
+          {/* Progress Bar */}
+          <Progress value={step * 33.3} className="mb-6" />
 
-          {/* Plant Area */}
-          <Select onValueChange={(v) => setForm({ ...form, plant_area: v })}>
-            <SelectTrigger><SelectValue placeholder="Plant Area" /></SelectTrigger>
-            <SelectContent>
-              {plantAreas.map((x) => (
-                <SelectItem key={x} value={x}>{x}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          {/* ================= STEP 1 ================= */}
+          {step === 1 && (
+            <div className="space-y-4">
+              <h2 className="font-semibold text-lg">Information Tagger</h2>
 
-          {/* Business Unit */}
-          <Select onValueChange={(v) => setForm({ ...form, business_unit: v })}>
-            <SelectTrigger><SelectValue placeholder="Business Unit" /></SelectTrigger>
-            <SelectContent>
-              {businessUnits.map((x) => (
-                <SelectItem key={x} value={x}>{x}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+              {/* NIK */}
+              <div>
+                <label className="text-sm font-medium">Nomor Induk Karyawan</label>
+                <Input
+                  type="number"
+                  placeholder="Masukkan NIK"
+                  value={form.nik}
+                  onChange={(e) => updateForm("nik", e.target.value)}
+                />
+              </div>
 
-          <Input placeholder="Tagger Name" onChange={(e) => setForm({ ...form, tagger: e.target.value })} />
-          <Input placeholder="NIK Tagger" onChange={(e) => setForm({ ...form, nik_tagger: e.target.value })} />
-          <Input placeholder="Dept Tagger" onChange={(e) => setForm({ ...form, dept_tagger: e.target.value })} />
+              {/* Tagger Name */}
+              <div>
+                <label className="text-sm font-medium">Nama Tagger</label>
+                <Input
+                  placeholder="Nama"
+                  value={form.tagger_name}
+                  onChange={(e) => updateForm("tagger_name", e.target.value)}
+                />
+              </div>
 
-          {/* Category */}
-          <Select onValueChange={(v) => setForm({ ...form, tag_category: v })}>
-            <SelectTrigger><SelectValue placeholder="Tag Category" /></SelectTrigger>
-            <SelectContent>
-              {tagCategories.map((x) => (
-                <SelectItem key={x} value={x}>{x}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+              {/* Email */}
+              <div>
+                <label className="text-sm font-medium">Email Tagger</label>
+                <Input
+                  type="email"
+                  placeholder="example@company.com"
+                  value={form.email}
+                  onChange={(e) => updateForm("email", e.target.value)}
+                />
+              </div>
+            </div>
+          )}
 
-          {/* System */}
-          <Select onValueChange={(v) => setForm({ ...form, tag_category_system: v })}>
-            <SelectTrigger><SelectValue placeholder="Tag Category System" /></SelectTrigger>
-            <SelectContent>
-              {tagCategorySystem.map((x) => (
-                <SelectItem key={x} value={x}>{x}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          {/* ================= STEP 2 ================= */}
+          {step === 2 && (
+            <div className="space-y-4">
+              <h2 className="font-semibold text-lg">Discovery Information</h2>
 
-          {/* Subsystem */}
-          <Select onValueChange={(v) => setForm({ ...form, tag_category_subsystem: v })}>
-            <SelectTrigger><SelectValue placeholder="Tag Category Subsystem" /></SelectTrigger>
-            <SelectContent>
-              {tagCategorySubsystem.map((x) => (
-                <SelectItem key={x} value={x}>{x}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+              {/* Plant Area */}
+              <div>
+                <label className="text-sm font-medium">Plant Area</label>
+                <Select onValueChange={(v) => updateForm("plant_area", v)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih Plant Area" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {dataJson.plant_area.map((item) => (
+                      <SelectItem key={item} value={item}>
+                        {item}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
 
-          {/* Priority */}
-          <Select onValueChange={(v) => setForm({ ...form, tag_priority: v })}>
-            <SelectTrigger><SelectValue placeholder="Priority" /></SelectTrigger>
-            <SelectContent>
-              {tagPriorities.map((x) => (
-                <SelectItem key={x} value={x}>{x}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+              {/* Business Unit */}
+              <div>
+                <label className="text-sm font-medium">Business Unit</label>
+                <Select onValueChange={(v) => updateForm("business_unit", v)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih Business Unit" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {dataJson.business_unit.map((item) => (
+                      <SelectItem key={item} value={item}>
+                        {item}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
 
-          <Textarea placeholder="Tag Description" onChange={(e) => setForm({ ...form, tag_desc: e.target.value })} />
+              {/* Category System */}
+              <div>
+                <label className="text-sm font-medium">Category System</label>
+                <Select
+                  onValueChange={(v) => {
+                    updateForm("category_system", v);
+                    updateForm("category_subsystem", ""); // reset
+                  }}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih Category System" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {dataJson.category_system.map((item) => (
+                      <SelectItem key={item} value={item}>
+                        {item}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
 
-          <Button className="w-full mt-4" onClick={handleSubmit}>
-            Submit
-          </Button>
+              {/* Category Subsystem */}
+              <div>
+                <label className="text-sm font-medium">Category Sub System</label>
+                <Select onValueChange={(v) => updateForm("category_subsystem", v)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih Subsystem" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {filteredSubsystem.map((item) => (
+                      <SelectItem key={item} value={item}>
+                        {item}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
 
-          {status && <p className="text-center mt-3">{status}</p>}
+              {/* Problem Category */}
+              <div>
+                <label className="text-sm font-medium">Problem Category</label>
+                <Select onValueChange={(v) => updateForm("problem_category", v)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih Problem" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {dataJson.problem_category.map((item) => (
+                      <SelectItem key={item} value={item}>
+                        {item}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* PIC */}
+              <div>
+                <label className="text-sm font-medium">PIC</label>
+                <Select onValueChange={(v) => updateForm("pic", v)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih PIC" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {dataJson.pic.map((item) => (
+                      <SelectItem key={item} value={item}>
+                        {item}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Description */}
+              <div>
+                <label className="text-sm font-medium">Description</label>
+                <Textarea
+                  rows={3}
+                  placeholder="Tuliskan deskripsi masalah..."
+                  value={form.description}
+                  onChange={(e) => updateForm("description", e.target.value)}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* ================= STEP 3 ================= */}
+          {step === 3 && (
+            <div className="space-y-4">
+              <h2 className="font-semibold text-lg">Media Submission</h2>
+
+              <p className="text-sm text-gray-500">
+                Media dapat berupa gambar atau video singkat.
+              </p>
+
+              <Input
+                type="file"
+                accept="image/*, video/*"
+                onChange={(e) => setMedia(e.target.files?.[0] ?? null)}
+              />
+
+              {media && (
+                <div className="mt-3">
+                  <p className="text-sm font-medium">Preview:</p>
+                  {media.type.startsWith("image/") ? (
+                    <img
+                      src={URL.createObjectURL(media)}
+                      className="w-40 rounded border"
+                    />
+                  ) : (
+                    <video
+                      src={URL.createObjectURL(media)}
+                      className="w-40 rounded border"
+                      controls
+                    />
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
+          <Separator className="my-6" />
+
+          {/* Navigation Buttons */}
+          <div className="flex justify-between">
+            {step > 1 ? (
+              <Button variant="outline" onClick={prevStep}>
+                Back
+              </Button>
+            ) : (
+              <div />
+            )}
+
+            {step < 3 ? (
+              <Button onClick={nextStep} disabled={!validateStep()}>
+                Next
+              </Button>
+            ) : (
+              <Button onClick={submitForm}>Submit</Button>
+            )}
+          </div>
         </CardContent>
       </Card>
     </div>

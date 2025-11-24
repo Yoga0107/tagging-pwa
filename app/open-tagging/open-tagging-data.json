@@ -1,0 +1,16 @@
+{
+  "plant_area": ["Area 1", "Area 2", "Area 3"],
+  "business_unit": ["BU-A", "BU-B", "BU-C"],
+
+  "category_system": ["Electrical", "Mechanical", "Utility"],
+
+  "category_subsystem": {
+    "Electrical": ["Panel", "Wiring", "Sensor"],
+    "Mechanical": ["Motor", "Pump", "Bearing"],
+    "Utility": ["Compressor", "Boiler", "Chiller"]
+  },
+
+  "problem_category": ["Leak", "Noise", "Overheat", "Vibration", "Broken Part"],
+
+  "pic": ["Maintenance", "Production"]
+}
